@@ -1,4 +1,4 @@
-# hello word
+# hello word(WIP)
 
 ### 单词短语推送器
 
