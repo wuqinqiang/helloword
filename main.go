@@ -16,6 +16,7 @@ func main() {
 		Commands: []*cli.Command{
 			cmd.DaemonCmd,
 			cmd.ImportCmd,
+			cmd.GameCmd,
 		},
 	}
 	app.Setup()
