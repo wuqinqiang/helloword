@@ -1,11 +1,11 @@
-module helloword
+module github.com/wuqinqiang/helloword
 
 go 1.19
 
 require (
 	github.com/go-resty/resty/v2 v2.7.0
-	github.com/sashabaranov/go-gpt3 v1.0.1
-	github.com/urfave/cli/v2 v2.24.3
+	github.com/sashabaranov/go-gpt3 v1.1.0
+	github.com/urfave/cli/v2 v2.24.4
 )
 
 require (

@@ -2,7 +2,7 @@ package bbdc
 
 import (
 	"context"
-	. "helloword/tools"
+	. "github.com/wuqinqiang/helloword/tools"
 	"strconv"
 	"time"
 )
