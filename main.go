@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/urfave/cli/v2"
-	"helloword/cmd"
+	"github.com/wuqinqiang/helloword/cmd"
 	"os"
 )
 
