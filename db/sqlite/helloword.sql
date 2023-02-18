@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS wrod (
                                         create_time BIGINT NOT NULL,
                                         update_time BIGINT NOT NULL,
                                         PRIMARY KEY(word_id)
-);
+) WITHOUT ROWID;
 
 CREATE TABLE IF NOT EXISTS phrase(
                                      phrase_id TEXT,
@@ -15,26 +15,28 @@ CREATE TABLE IF NOT EXISTS phrase(
                                      create_time BIGINT NOT NULL,
                                      update_time BIGINT NOT NULL,
                                      PRIMARY KEY(phrase_id)
-    );
+) WITHOUT ROWID;
 
 
 
 
 CREATE TABLE IF NOT EXISTS word_phrase(
-                                          phrase_id TEXT,
+                                          word_phrase_id TEXT
                                           word_id TEXT,
+                                          phrase_id TEXT,
                                           create_time BIGINT NOT NULL,
                                           update_time BIGINT NOT NULL,
-    )
+                                          PRIMARY KEY(word_phrase_id)
+) WITHOUT ROWID;
 
 
 CREATE TABLE IF NOT EXISTS word_phrase_usage(
                                          word_id TEXT,
                                          last_review BIGINT,
                                          next_review BIGINT,
-                                         num_repetitions int,
+                                         num_repetitions INT,
                                          status TEXT,
                                          create_time BIGINT NOT NULL,
                                          update_time BIGINT NOT NULL,
                                          PRIMARY KEY(word_id)
-    );
+) WITHOUT ROWID;
