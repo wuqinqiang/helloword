@@ -1,11 +1,32 @@
 package conf
 
 import (
+	_ "embed"
+
+	"gopkg.in/yaml.v3"
+
 	"github.com/wuqinqiang/helloword/notify"
 	"github.com/wuqinqiang/helloword/notify/dingtalk"
 	"github.com/wuqinqiang/helloword/notify/lark"
 	"github.com/wuqinqiang/helloword/notify/telegram"
 )
+
+//go:embed conf.yml
+var conf []byte
+
+func GetConf() (*Settings, error) {
+	var settings Settings
+	err := yaml.Unmarshal(conf, &settings)
+	if err != nil {
+		return nil, err
+	}
+	return &settings, nil
+}
+
+type Settings struct {
+	GptToken string `yaml:"gptToken"`
+	Notify
+}
 
 // Notify Config
 type Notify struct {

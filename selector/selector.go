@@ -47,12 +47,10 @@ func New(strategyType StrategyType, wordDao dao.Word) Selector {
 	return srv
 }
 
-func (s Srv) NextWords() (words model.Words, err error) {
-	//TODO implement me
-	panic("implement me")
+func (s *Srv) NextWords() (words model.Words, err error) {
+	return model.NewWords([]string{"statement", "distinguish", "permanent", "risk"}), nil
 }
 
-func (s Srv) SetStrategyType(strategy StrategyType) {
-	//TODO implement me
-	panic("implement me")
+func (s *Srv) SetStrategyType(strategy StrategyType) {
+
 }

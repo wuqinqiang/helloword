@@ -2,10 +2,12 @@ package core
 
 import (
 	"context"
-	"fmt"
 	"os"
 	"os/signal"
+	"sync"
 	"syscall"
+
+	"github.com/wuqinqiang/helloword/notify/base"
 
 	"github.com/wuqinqiang/helloword/logging"
 
@@ -25,12 +27,14 @@ type Core struct {
 	notify    notify.Notify
 	cron      *cron.Cron
 	options   *Options
-	importer  collector.Importer
+	importer  *collector.Importer
 	selector  selector.Selector
 	ch        chan struct{}
+
+	locker sync.Mutex
 }
 
-func New(generator generator.Generator, importer collector.Importer,
+func New(generator generator.Generator, importer *collector.Importer,
 	selector selector.Selector, notify notify.Notify, opts ...Option) *Core {
 	core := &Core{
 		generator: generator,
@@ -60,6 +64,7 @@ func (core *Core) Run() error {
 	if _, err := core.cron.AddFunc(core.options.spec, core.generatePhrase); err != nil {
 		return err
 	}
+	core.cron.Start()
 
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGINT)
@@ -72,10 +77,21 @@ func (core *Core) runImport() {
 }
 
 func (core *Core) generatePhrase() {
+	defer core.locker.Unlock()
+	core.locker.Lock()
 	words, err := core.selector.NextWords()
 	if err != nil {
 		logging.Errorf("[NextWords] err:%v", err)
+		return
 	}
-	fmt.Println(words)
-	// todo generator
+	if len(words) == 0 {
+		logging.Warnf("no words available")
+		return
+	}
+	phrase, err := core.generator.Generate(context.Background(), words.List())
+	if err != nil {
+		return
+	}
+	// todo records for phrase
+	core.notify.Notify(base.New("", phrase))
 }

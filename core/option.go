@@ -1,7 +1,7 @@
 package core
 
 var Default = &Options{
-	spec: "@every 2m",
+	spec: "@every 20s",
 }
 
 type Option func(options *Options)

@@ -24,3 +24,10 @@ func NewWord(word string) *Word {
 		UpdateTime: now,
 	}
 }
+
+func (words Words) List() (items []string) {
+	for i := range words {
+		items = append(items, words[i].Word)
+	}
+	return
+}

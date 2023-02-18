@@ -4,9 +4,13 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	gogpt "github.com/sashabaranov/go-gpt3"
 	"io"
+	"strings"
+
+	gogpt "github.com/sashabaranov/go-gpt3"
 )
+
+var prompt = "请你用以下单词：%s 写一篇英语短文。此外，在生成的短文后面，说明以上单词的中文意思"
 
 type Client struct {
 	*gogpt.Client
@@ -17,14 +21,19 @@ func NewClient(token string) *Client {
 	return &Client{gpt}
 }
 
-func (c *Client) Send(ctx context.Context, text string) (string, error) {
+func (client *Client) Generate(ctx context.Context, words []string) (phrase string, err error) {
+	wordStr := strings.Join(words, ",")
+	return client.request(ctx, fmt.Sprintf(prompt, wordStr))
+}
+
+func (client *Client) request(ctx context.Context, text string) (string, error) {
 	req := gogpt.CompletionRequest{
 		Model:     gogpt.GPT3TextDavinci003,
 		MaxTokens: 1000,
 		Prompt:    text,
 		Stream:    true,
 	}
-	stream, err := c.CreateCompletionStream(ctx, req)
+	stream, err := client.CreateCompletionStream(ctx, req)
 	if err != nil {
 		return "", err
 	}
