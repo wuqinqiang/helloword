@@ -1,9 +1,10 @@
 package main
 
 import (
+	"os"
+
 	"github.com/urfave/cli/v2"
 	"github.com/wuqinqiang/helloword/cmd"
-	"os"
 )
 
 func main() {
@@ -17,6 +18,7 @@ func main() {
 			cmd.DaemonCmd,
 			cmd.ImportCmd,
 			cmd.GameCmd,
+			cmd.GenCmd,
 		},
 	}
 	app.Setup()
