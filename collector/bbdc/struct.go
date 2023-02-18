@@ -53,6 +53,10 @@ func (resp *Response) End() bool {
 	return resp.DataBody.PageInfo.CurrentPage == resp.DataBody.PageInfo.TotalPage
 }
 
+func (resp *Response) TotalPage() int {
+	return int(resp.DataBody.PageInfo.TotalPage)
+}
+
 func (resp *Response) GetWords() (words []string) {
 	wordList := resp.DataBody.WordList
 	if len(wordList) == 0 {

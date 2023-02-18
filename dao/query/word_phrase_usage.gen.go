@@ -28,6 +28,7 @@ func newWordPhraseUsage(db *gorm.DB, opts ...gen.DOOption) wordPhraseUsage {
 	tableName := _wordPhraseUsage.wordPhraseUsageDo.TableName()
 	_wordPhraseUsage.ALL = field.NewAsterisk(tableName)
 	_wordPhraseUsage.WordID = field.NewString(tableName, "word_id")
+	_wordPhraseUsage.Word = field.NewString(tableName, "word")
 	_wordPhraseUsage.LastReview = field.NewInt64(tableName, "last_review")
 	_wordPhraseUsage.NextReview = field.NewInt64(tableName, "next_review")
 	_wordPhraseUsage.NumRepetitions = field.NewInt32(tableName, "num_repetitions")
@@ -45,6 +46,7 @@ type wordPhraseUsage struct {
 
 	ALL            field.Asterisk
 	WordID         field.String
+	Word           field.String
 	LastReview     field.Int64
 	NextReview     field.Int64
 	NumRepetitions field.Int32
@@ -68,6 +70,7 @@ func (w wordPhraseUsage) As(alias string) *wordPhraseUsage {
 func (w *wordPhraseUsage) updateTableName(table string) *wordPhraseUsage {
 	w.ALL = field.NewAsterisk(table)
 	w.WordID = field.NewString(table, "word_id")
+	w.Word = field.NewString(table, "word")
 	w.LastReview = field.NewInt64(table, "last_review")
 	w.NextReview = field.NewInt64(table, "next_review")
 	w.NumRepetitions = field.NewInt32(table, "num_repetitions")
@@ -98,8 +101,9 @@ func (w *wordPhraseUsage) GetFieldByName(fieldName string) (field.OrderExpr, boo
 }
 
 func (w *wordPhraseUsage) fillFieldMap() {
-	w.fieldMap = make(map[string]field.Expr, 7)
+	w.fieldMap = make(map[string]field.Expr, 8)
 	w.fieldMap["word_id"] = w.WordID
+	w.fieldMap["word"] = w.Word
 	w.fieldMap["last_review"] = w.LastReview
 	w.fieldMap["next_review"] = w.NextReview
 	w.fieldMap["num_repetitions"] = w.NumRepetitions

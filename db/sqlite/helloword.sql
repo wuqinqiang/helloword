@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS wrod (
+CREATE TABLE IF NOT EXISTS word (
                                         word_id TEXT,
                                         word TEXT,
                                         phonetic TEXT,
@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS word_phrase(
 
 CREATE TABLE IF NOT EXISTS word_phrase_usage(
                                          word_id TEXT,
+                                         word TEXT,
                                          last_review BIGINT,
                                          next_review BIGINT,
                                          num_repetitions INT,

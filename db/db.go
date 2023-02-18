@@ -27,7 +27,7 @@ func Init(provider Provider) error {
 	return nil
 }
 
-func GetDb() *gorm.DB {
+func Get() *gorm.DB {
 	if db == nil {
 		panic("db must not nil,please call the sqlite first")
 	}

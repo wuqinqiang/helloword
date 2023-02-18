@@ -19,29 +19,29 @@ import (
 	"github.com/wuqinqiang/helloword/dao/model"
 )
 
-func newWrod(db *gorm.DB, opts ...gen.DOOption) wrod {
-	_wrod := wrod{}
+func newWord(db *gorm.DB, opts ...gen.DOOption) word {
+	_word := word{}
 
-	_wrod.wrodDo.UseDB(db, opts...)
-	_wrod.wrodDo.UseModel(&model.Wrod{})
+	_word.wordDo.UseDB(db, opts...)
+	_word.wordDo.UseModel(&model.Word{})
 
-	tableName := _wrod.wrodDo.TableName()
-	_wrod.ALL = field.NewAsterisk(tableName)
-	_wrod.WordID = field.NewString(tableName, "word_id")
-	_wrod.Word = field.NewString(tableName, "word")
-	_wrod.Phonetic = field.NewString(tableName, "phonetic")
-	_wrod.Definition = field.NewString(tableName, "definition")
-	_wrod.Difficulty = field.NewString(tableName, "difficulty")
-	_wrod.CreateTime = field.NewInt64(tableName, "create_time")
-	_wrod.UpdateTime = field.NewInt64(tableName, "update_time")
+	tableName := _word.wordDo.TableName()
+	_word.ALL = field.NewAsterisk(tableName)
+	_word.WordID = field.NewString(tableName, "word_id")
+	_word.Word = field.NewString(tableName, "word")
+	_word.Phonetic = field.NewString(tableName, "phonetic")
+	_word.Definition = field.NewString(tableName, "definition")
+	_word.Difficulty = field.NewString(tableName, "difficulty")
+	_word.CreateTime = field.NewInt64(tableName, "create_time")
+	_word.UpdateTime = field.NewInt64(tableName, "update_time")
 
-	_wrod.fillFieldMap()
+	_word.fillFieldMap()
 
-	return _wrod
+	return _word
 }
 
-type wrod struct {
-	wrodDo wrodDo
+type word struct {
+	wordDo wordDo
 
 	ALL        field.Asterisk
 	WordID     field.String
@@ -55,17 +55,17 @@ type wrod struct {
 	fieldMap map[string]field.Expr
 }
 
-func (w wrod) Table(newTableName string) *wrod {
-	w.wrodDo.UseTable(newTableName)
+func (w word) Table(newTableName string) *word {
+	w.wordDo.UseTable(newTableName)
 	return w.updateTableName(newTableName)
 }
 
-func (w wrod) As(alias string) *wrod {
-	w.wrodDo.DO = *(w.wrodDo.As(alias).(*gen.DO))
+func (w word) As(alias string) *word {
+	w.wordDo.DO = *(w.wordDo.As(alias).(*gen.DO))
 	return w.updateTableName(alias)
 }
 
-func (w *wrod) updateTableName(table string) *wrod {
+func (w *word) updateTableName(table string) *word {
 	w.ALL = field.NewAsterisk(table)
 	w.WordID = field.NewString(table, "word_id")
 	w.Word = field.NewString(table, "word")
@@ -80,13 +80,13 @@ func (w *wrod) updateTableName(table string) *wrod {
 	return w
 }
 
-func (w *wrod) WithContext(ctx context.Context) *wrodDo { return w.wrodDo.WithContext(ctx) }
+func (w *word) WithContext(ctx context.Context) *wordDo { return w.wordDo.WithContext(ctx) }
 
-func (w wrod) TableName() string { return w.wrodDo.TableName() }
+func (w word) TableName() string { return w.wordDo.TableName() }
 
-func (w wrod) Alias() string { return w.wrodDo.Alias() }
+func (w word) Alias() string { return w.wordDo.Alias() }
 
-func (w *wrod) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
+func (w *word) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	_f, ok := w.fieldMap[fieldName]
 	if !ok || _f == nil {
 		return nil, false
@@ -95,7 +95,7 @@ func (w *wrod) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 	return _oe, ok
 }
 
-func (w *wrod) fillFieldMap() {
+func (w *word) fillFieldMap() {
 	w.fieldMap = make(map[string]field.Expr, 7)
 	w.fieldMap["word_id"] = w.WordID
 	w.fieldMap["word"] = w.Word
@@ -106,165 +106,165 @@ func (w *wrod) fillFieldMap() {
 	w.fieldMap["update_time"] = w.UpdateTime
 }
 
-func (w wrod) clone(db *gorm.DB) wrod {
-	w.wrodDo.ReplaceConnPool(db.Statement.ConnPool)
+func (w word) clone(db *gorm.DB) word {
+	w.wordDo.ReplaceConnPool(db.Statement.ConnPool)
 	return w
 }
 
-func (w wrod) replaceDB(db *gorm.DB) wrod {
-	w.wrodDo.ReplaceDB(db)
+func (w word) replaceDB(db *gorm.DB) word {
+	w.wordDo.ReplaceDB(db)
 	return w
 }
 
-type wrodDo struct{ gen.DO }
+type wordDo struct{ gen.DO }
 
-func (w wrodDo) Debug() *wrodDo {
+func (w wordDo) Debug() *wordDo {
 	return w.withDO(w.DO.Debug())
 }
 
-func (w wrodDo) WithContext(ctx context.Context) *wrodDo {
+func (w wordDo) WithContext(ctx context.Context) *wordDo {
 	return w.withDO(w.DO.WithContext(ctx))
 }
 
-func (w wrodDo) ReadDB() *wrodDo {
+func (w wordDo) ReadDB() *wordDo {
 	return w.Clauses(dbresolver.Read)
 }
 
-func (w wrodDo) WriteDB() *wrodDo {
+func (w wordDo) WriteDB() *wordDo {
 	return w.Clauses(dbresolver.Write)
 }
 
-func (w wrodDo) Session(config *gorm.Session) *wrodDo {
+func (w wordDo) Session(config *gorm.Session) *wordDo {
 	return w.withDO(w.DO.Session(config))
 }
 
-func (w wrodDo) Clauses(conds ...clause.Expression) *wrodDo {
+func (w wordDo) Clauses(conds ...clause.Expression) *wordDo {
 	return w.withDO(w.DO.Clauses(conds...))
 }
 
-func (w wrodDo) Returning(value interface{}, columns ...string) *wrodDo {
+func (w wordDo) Returning(value interface{}, columns ...string) *wordDo {
 	return w.withDO(w.DO.Returning(value, columns...))
 }
 
-func (w wrodDo) Not(conds ...gen.Condition) *wrodDo {
+func (w wordDo) Not(conds ...gen.Condition) *wordDo {
 	return w.withDO(w.DO.Not(conds...))
 }
 
-func (w wrodDo) Or(conds ...gen.Condition) *wrodDo {
+func (w wordDo) Or(conds ...gen.Condition) *wordDo {
 	return w.withDO(w.DO.Or(conds...))
 }
 
-func (w wrodDo) Select(conds ...field.Expr) *wrodDo {
+func (w wordDo) Select(conds ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Select(conds...))
 }
 
-func (w wrodDo) Where(conds ...gen.Condition) *wrodDo {
+func (w wordDo) Where(conds ...gen.Condition) *wordDo {
 	return w.withDO(w.DO.Where(conds...))
 }
 
-func (w wrodDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *wrodDo {
+func (w wordDo) Exists(subquery interface{ UnderlyingDB() *gorm.DB }) *wordDo {
 	return w.Where(field.CompareSubQuery(field.ExistsOp, nil, subquery.UnderlyingDB()))
 }
 
-func (w wrodDo) Order(conds ...field.Expr) *wrodDo {
+func (w wordDo) Order(conds ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Order(conds...))
 }
 
-func (w wrodDo) Distinct(cols ...field.Expr) *wrodDo {
+func (w wordDo) Distinct(cols ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Distinct(cols...))
 }
 
-func (w wrodDo) Omit(cols ...field.Expr) *wrodDo {
+func (w wordDo) Omit(cols ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Omit(cols...))
 }
 
-func (w wrodDo) Join(table schema.Tabler, on ...field.Expr) *wrodDo {
+func (w wordDo) Join(table schema.Tabler, on ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Join(table, on...))
 }
 
-func (w wrodDo) LeftJoin(table schema.Tabler, on ...field.Expr) *wrodDo {
+func (w wordDo) LeftJoin(table schema.Tabler, on ...field.Expr) *wordDo {
 	return w.withDO(w.DO.LeftJoin(table, on...))
 }
 
-func (w wrodDo) RightJoin(table schema.Tabler, on ...field.Expr) *wrodDo {
+func (w wordDo) RightJoin(table schema.Tabler, on ...field.Expr) *wordDo {
 	return w.withDO(w.DO.RightJoin(table, on...))
 }
 
-func (w wrodDo) Group(cols ...field.Expr) *wrodDo {
+func (w wordDo) Group(cols ...field.Expr) *wordDo {
 	return w.withDO(w.DO.Group(cols...))
 }
 
-func (w wrodDo) Having(conds ...gen.Condition) *wrodDo {
+func (w wordDo) Having(conds ...gen.Condition) *wordDo {
 	return w.withDO(w.DO.Having(conds...))
 }
 
-func (w wrodDo) Limit(limit int) *wrodDo {
+func (w wordDo) Limit(limit int) *wordDo {
 	return w.withDO(w.DO.Limit(limit))
 }
 
-func (w wrodDo) Offset(offset int) *wrodDo {
+func (w wordDo) Offset(offset int) *wordDo {
 	return w.withDO(w.DO.Offset(offset))
 }
 
-func (w wrodDo) Scopes(funcs ...func(gen.Dao) gen.Dao) *wrodDo {
+func (w wordDo) Scopes(funcs ...func(gen.Dao) gen.Dao) *wordDo {
 	return w.withDO(w.DO.Scopes(funcs...))
 }
 
-func (w wrodDo) Unscoped() *wrodDo {
+func (w wordDo) Unscoped() *wordDo {
 	return w.withDO(w.DO.Unscoped())
 }
 
-func (w wrodDo) Create(values ...*model.Wrod) error {
+func (w wordDo) Create(values ...*model.Word) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return w.DO.Create(values)
 }
 
-func (w wrodDo) CreateInBatches(values []*model.Wrod, batchSize int) error {
+func (w wordDo) CreateInBatches(values []*model.Word, batchSize int) error {
 	return w.DO.CreateInBatches(values, batchSize)
 }
 
 // Save : !!! underlying implementation is different with GORM
 // The method is equivalent to executing the statement: db.Clauses(clause.OnConflict{UpdateAll: true}).Create(values)
-func (w wrodDo) Save(values ...*model.Wrod) error {
+func (w wordDo) Save(values ...*model.Word) error {
 	if len(values) == 0 {
 		return nil
 	}
 	return w.DO.Save(values)
 }
 
-func (w wrodDo) First() (*model.Wrod, error) {
+func (w wordDo) First() (*model.Word, error) {
 	if result, err := w.DO.First(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.Wrod), nil
+		return result.(*model.Word), nil
 	}
 }
 
-func (w wrodDo) Take() (*model.Wrod, error) {
+func (w wordDo) Take() (*model.Word, error) {
 	if result, err := w.DO.Take(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.Wrod), nil
+		return result.(*model.Word), nil
 	}
 }
 
-func (w wrodDo) Last() (*model.Wrod, error) {
+func (w wordDo) Last() (*model.Word, error) {
 	if result, err := w.DO.Last(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.Wrod), nil
+		return result.(*model.Word), nil
 	}
 }
 
-func (w wrodDo) Find() ([]*model.Wrod, error) {
+func (w wordDo) Find() ([]*model.Word, error) {
 	result, err := w.DO.Find()
-	return result.([]*model.Wrod), err
+	return result.([]*model.Word), err
 }
 
-func (w wrodDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.Wrod, err error) {
-	buf := make([]*model.Wrod, 0, batchSize)
+func (w wordDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error) (results []*model.Word, err error) {
+	buf := make([]*model.Word, 0, batchSize)
 	err = w.DO.FindInBatches(&buf, batchSize, func(tx gen.Dao, batch int) error {
 		defer func() { results = append(results, buf...) }()
 		return fc(tx, batch)
@@ -272,49 +272,49 @@ func (w wrodDo) FindInBatch(batchSize int, fc func(tx gen.Dao, batch int) error)
 	return results, err
 }
 
-func (w wrodDo) FindInBatches(result *[]*model.Wrod, batchSize int, fc func(tx gen.Dao, batch int) error) error {
+func (w wordDo) FindInBatches(result *[]*model.Word, batchSize int, fc func(tx gen.Dao, batch int) error) error {
 	return w.DO.FindInBatches(result, batchSize, fc)
 }
 
-func (w wrodDo) Attrs(attrs ...field.AssignExpr) *wrodDo {
+func (w wordDo) Attrs(attrs ...field.AssignExpr) *wordDo {
 	return w.withDO(w.DO.Attrs(attrs...))
 }
 
-func (w wrodDo) Assign(attrs ...field.AssignExpr) *wrodDo {
+func (w wordDo) Assign(attrs ...field.AssignExpr) *wordDo {
 	return w.withDO(w.DO.Assign(attrs...))
 }
 
-func (w wrodDo) Joins(fields ...field.RelationField) *wrodDo {
+func (w wordDo) Joins(fields ...field.RelationField) *wordDo {
 	for _, _f := range fields {
 		w = *w.withDO(w.DO.Joins(_f))
 	}
 	return &w
 }
 
-func (w wrodDo) Preload(fields ...field.RelationField) *wrodDo {
+func (w wordDo) Preload(fields ...field.RelationField) *wordDo {
 	for _, _f := range fields {
 		w = *w.withDO(w.DO.Preload(_f))
 	}
 	return &w
 }
 
-func (w wrodDo) FirstOrInit() (*model.Wrod, error) {
+func (w wordDo) FirstOrInit() (*model.Word, error) {
 	if result, err := w.DO.FirstOrInit(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.Wrod), nil
+		return result.(*model.Word), nil
 	}
 }
 
-func (w wrodDo) FirstOrCreate() (*model.Wrod, error) {
+func (w wordDo) FirstOrCreate() (*model.Word, error) {
 	if result, err := w.DO.FirstOrCreate(); err != nil {
 		return nil, err
 	} else {
-		return result.(*model.Wrod), nil
+		return result.(*model.Word), nil
 	}
 }
 
-func (w wrodDo) FindByPage(offset int, limit int) (result []*model.Wrod, count int64, err error) {
+func (w wordDo) FindByPage(offset int, limit int) (result []*model.Word, count int64, err error) {
 	result, err = w.Offset(offset).Limit(limit).Find()
 	if err != nil {
 		return
@@ -329,7 +329,7 @@ func (w wrodDo) FindByPage(offset int, limit int) (result []*model.Wrod, count i
 	return
 }
 
-func (w wrodDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
+func (w wordDo) ScanByPage(result interface{}, offset int, limit int) (count int64, err error) {
 	count, err = w.Count()
 	if err != nil {
 		return
@@ -339,15 +339,15 @@ func (w wrodDo) ScanByPage(result interface{}, offset int, limit int) (count int
 	return
 }
 
-func (w wrodDo) Scan(result interface{}) (err error) {
+func (w wordDo) Scan(result interface{}) (err error) {
 	return w.DO.Scan(result)
 }
 
-func (w wrodDo) Delete(models ...*model.Wrod) (result gen.ResultInfo, err error) {
+func (w wordDo) Delete(models ...*model.Word) (result gen.ResultInfo, err error) {
 	return w.DO.Delete(models)
 }
 
-func (w *wrodDo) withDO(do gen.Dao) *wrodDo {
+func (w *wordDo) withDO(do gen.Dao) *wordDo {
 	w.DO = *do.(*gen.DO)
 	return w
 }

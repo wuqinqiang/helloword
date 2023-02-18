@@ -4,10 +4,10 @@
 
 package model
 
-const TableNameWrod = "wrod"
+const TableNameWord = "word"
 
-// Wrod mapped from table <wrod>
-type Wrod struct {
+// Word mapped from table <word>
+type Word struct {
 	WordID     string `gorm:"column:word_id;primaryKey" json:"word_id"`
 	Word       string `gorm:"column:word;not null" json:"word"`
 	Phonetic   string `gorm:"column:phonetic;not null" json:"phonetic"`
@@ -17,7 +17,7 @@ type Wrod struct {
 	UpdateTime int64  `gorm:"column:update_time;not null" json:"update_time"`
 }
 
-// TableName Wrod's table name
-func (*Wrod) TableName() string {
-	return TableNameWrod
+// TableName Word's table name
+func (*Word) TableName() string {
+	return TableNameWord
 }

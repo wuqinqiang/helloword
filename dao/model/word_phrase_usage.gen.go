@@ -9,6 +9,7 @@ const TableNameWordPhraseUsage = "word_phrase_usage"
 // WordPhraseUsage mapped from table <word_phrase_usage>
 type WordPhraseUsage struct {
 	WordID         string `gorm:"column:word_id;type:TEXT" json:"word_id"`
+	Word           string `gorm:"column:word;type:TEXT" json:"word"`
 	LastReview     int64  `gorm:"column:last_review;type:BIGINT" json:"last_review"`
 	NextReview     int64  `gorm:"column:next_review;type:BIGINT" json:"next_review"`
 	NumRepetitions int32  `gorm:"column:num_repetitions;type:INT" json:"num_repetitions"`

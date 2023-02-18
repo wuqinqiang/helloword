@@ -27,9 +27,9 @@ var GenCmd = &cli.Command{
 		// reuse the database connection in Project or create a connection here
 		// if you want to use GenerateModel/GenerateModelAs, UseDB is necessary or it will panic
 		//db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/boost?charset=utf8&parseTime=True&loc=Local"))
-		g.UseDB(db.GetDb())
+		g.UseDB(db.Get())
 		g.GenerateAllTable()
-		g.ApplyBasic(model.Wrod{}, model.WordPhrase{}, model.Phrase{}, model.WordPhraseUsage{})
+		g.ApplyBasic(model.Word{}, model.WordPhrase{}, model.Phrase{}, model.WordPhraseUsage{})
 		g.Execute()
 		return nil
 	},
