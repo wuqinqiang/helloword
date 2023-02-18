@@ -1,13 +1,15 @@
 package core
 
 var Default = &Options{
-	spec: "@every 20s",
+	spec:          "@every 30s",
+	selectTimeout: 10, //unit of second
 }
 
 type Option func(options *Options)
 
 type Options struct {
-	spec string
+	spec          string
+	selectTimeout int
 }
 
 func WithSpec(spec string) Option {

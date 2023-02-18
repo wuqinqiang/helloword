@@ -29,7 +29,7 @@ var GenCmd = &cli.Command{
 		//db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/boost?charset=utf8&parseTime=True&loc=Local"))
 		g.UseDB(db.Get())
 		g.GenerateAllTable()
-		g.ApplyBasic(model.Word{}, model.WordPhrase{}, model.Phrase{}, model.WordPhraseUsage{})
+		g.ApplyBasic(model.Word{}, model.WordPhrase{}, model.Phrase{})
 		g.Execute()
 		return nil
 	},

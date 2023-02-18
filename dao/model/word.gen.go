@@ -8,13 +8,15 @@ const TableNameWord = "word"
 
 // Word mapped from table <word>
 type Word struct {
-	WordID     string `gorm:"column:word_id;primaryKey" json:"word_id"`
-	Word       string `gorm:"column:word;not null" json:"word"`
-	Phonetic   string `gorm:"column:phonetic;not null" json:"phonetic"`
-	Definition string `gorm:"column:definition;not null" json:"definition"`
-	Difficulty string `gorm:"column:difficulty;not null" json:"difficulty"`
-	CreateTime int64  `gorm:"column:create_time;not null" json:"create_time"`
-	UpdateTime int64  `gorm:"column:update_time;not null" json:"update_time"`
+	WordID         string `gorm:"column:word_id;primaryKey" json:"word_id"`
+	Word           string `gorm:"column:word;not null" json:"word"`
+	Phonetic       string `gorm:"column:phonetic;not null" json:"phonetic"`
+	Definition     string `gorm:"column:definition;not null" json:"definition"`
+	Difficulty     string `gorm:"column:difficulty;not null" json:"difficulty"`
+	LastUsed       int64  `gorm:"column:last_used;not null" json:"last_used"`
+	NumRepetitions int32  `gorm:"column:num_repetitions;not null" json:"num_repetitions"`
+	CreateTime     int64  `gorm:"column:create_time;not null" json:"create_time"`
+	UpdateTime     int64  `gorm:"column:update_time;not null" json:"update_time"`
 }
 
 // TableName Word's table name

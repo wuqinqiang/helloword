@@ -1,6 +1,10 @@
 package bbdc
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/wuqinqiang/helloword/dao/model"
+)
 
 type Response struct {
 	ResultCode  int    `json:"result_code"`
@@ -57,13 +61,16 @@ func (resp *Response) TotalPage() int {
 	return int(resp.DataBody.PageInfo.TotalPage)
 }
 
-func (resp *Response) GetWords() (words []string) {
-	wordList := resp.DataBody.WordList
-	if len(wordList) == 0 {
+func (resp *Response) GetWords() (words model.Words) {
+	items := resp.DataBody.WordList
+	if len(items) == 0 {
 		return
 	}
-	for i := range wordList {
-		words = append(words, wordList[i].Word)
+	for _, item := range items {
+		word := model.NewWord(item.Word)
+		word.SetDefinition(item.Interpret)
+		word.SetPhonetic(item.Ukpron)
+		words = append(words, word)
 	}
 	return
 }

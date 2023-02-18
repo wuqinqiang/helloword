@@ -39,7 +39,8 @@ func (b *BBDC) Collect(ctx context.Context) (words model.Words, err error) {
 	if err = resp.Ok(); err != nil {
 		return
 	}
-	words = append(words, model.NewWords(resp.GetWords())...)
+
+	words = append(words, resp.GetWords()...)
 
 	// end of page
 	if resp.End() {
@@ -67,7 +68,7 @@ func (b *BBDC) Collect(ctx context.Context) (words model.Words, err error) {
 
 		pipe <- resp.GetWords()
 	}).ForEach(func(item interface{}) {
-		words = append(words, model.NewWords(item.([]string))...)
+		words = append(words, item.(model.Words)...)
 	})
 
 	return

@@ -13,6 +13,10 @@ type Phrase interface {
 type PhraseImpl struct {
 }
 
+func NewPhrase() Phrase {
+	return &PhraseImpl{}
+}
+
 func (impl PhraseImpl) Create(ctx context.Context, phrase *model.Phrase) error {
 	w := use(ctx).Phrase
 	return w.WithContext(ctx).Create(phrase)

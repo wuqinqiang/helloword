@@ -8,7 +8,7 @@ import (
 )
 
 const (
-	limit = 50
+	limit = 2000
 )
 
 func use(ctx context.Context) *query.Query {

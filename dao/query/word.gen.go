@@ -32,6 +32,8 @@ func newWord(db *gorm.DB, opts ...gen.DOOption) word {
 	_word.Phonetic = field.NewString(tableName, "phonetic")
 	_word.Definition = field.NewString(tableName, "definition")
 	_word.Difficulty = field.NewString(tableName, "difficulty")
+	_word.LastUsed = field.NewInt64(tableName, "last_used")
+	_word.NumRepetitions = field.NewInt32(tableName, "num_repetitions")
 	_word.CreateTime = field.NewInt64(tableName, "create_time")
 	_word.UpdateTime = field.NewInt64(tableName, "update_time")
 
@@ -43,14 +45,16 @@ func newWord(db *gorm.DB, opts ...gen.DOOption) word {
 type word struct {
 	wordDo wordDo
 
-	ALL        field.Asterisk
-	WordID     field.String
-	Word       field.String
-	Phonetic   field.String
-	Definition field.String
-	Difficulty field.String
-	CreateTime field.Int64
-	UpdateTime field.Int64
+	ALL            field.Asterisk
+	WordID         field.String
+	Word           field.String
+	Phonetic       field.String
+	Definition     field.String
+	Difficulty     field.String
+	LastUsed       field.Int64
+	NumRepetitions field.Int32
+	CreateTime     field.Int64
+	UpdateTime     field.Int64
 
 	fieldMap map[string]field.Expr
 }
@@ -72,6 +76,8 @@ func (w *word) updateTableName(table string) *word {
 	w.Phonetic = field.NewString(table, "phonetic")
 	w.Definition = field.NewString(table, "definition")
 	w.Difficulty = field.NewString(table, "difficulty")
+	w.LastUsed = field.NewInt64(table, "last_used")
+	w.NumRepetitions = field.NewInt32(table, "num_repetitions")
 	w.CreateTime = field.NewInt64(table, "create_time")
 	w.UpdateTime = field.NewInt64(table, "update_time")
 
@@ -96,12 +102,14 @@ func (w *word) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (w *word) fillFieldMap() {
-	w.fieldMap = make(map[string]field.Expr, 7)
+	w.fieldMap = make(map[string]field.Expr, 9)
 	w.fieldMap["word_id"] = w.WordID
 	w.fieldMap["word"] = w.Word
 	w.fieldMap["phonetic"] = w.Phonetic
 	w.fieldMap["definition"] = w.Definition
 	w.fieldMap["difficulty"] = w.Difficulty
+	w.fieldMap["last_used"] = w.LastUsed
+	w.fieldMap["num_repetitions"] = w.NumRepetitions
 	w.fieldMap["create_time"] = w.CreateTime
 	w.fieldMap["update_time"] = w.UpdateTime
 }

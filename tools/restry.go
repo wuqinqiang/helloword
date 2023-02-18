@@ -11,7 +11,7 @@ var (
 	Resty *resty.Client
 
 	defaultClient = &http.Client{
-		Timeout: 6 * time.Second,
+		Timeout: 20 * time.Second,
 		Transport: &http.Transport{
 			DisableKeepAlives: true,
 			MaxIdleConns:      15,

@@ -8,11 +8,11 @@ const TableNameWordPhrase = "word_phrase"
 
 // WordPhrase mapped from table <word_phrase>
 type WordPhrase struct {
-	WordPhraseID string `gorm:"column:word_phrase_id;type:TEXT
-                                          word_id TEXT" json:"word_phrase_id"`
-	PhraseID   string `gorm:"column:phrase_id;type:TEXT" json:"phrase_id"`
-	CreateTime int64  `gorm:"column:create_time;type:BIGINT" json:"create_time"`
-	UpdateTime int64  `gorm:"column:update_time;type:BIGINT" json:"update_time"`
+	WordPhraseID string `gorm:"column:word_phrase_id;type:TEXT" json:"word_phrase_id"`
+	WordID       string `gorm:"column:word_id;type:TEXT" json:"word_id"`
+	PhraseID     string `gorm:"column:phrase_id;type:TEXT" json:"phrase_id"`
+	CreateTime   int64  `gorm:"column:create_time;type:BIGINT" json:"create_time"`
+	UpdateTime   int64  `gorm:"column:update_time;type:BIGINT" json:"update_time"`
 }
 
 // TableName WordPhrase's table name

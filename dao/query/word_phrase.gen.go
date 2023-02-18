@@ -28,6 +28,7 @@ func newWordPhrase(db *gorm.DB, opts ...gen.DOOption) wordPhrase {
 	tableName := _wordPhrase.wordPhraseDo.TableName()
 	_wordPhrase.ALL = field.NewAsterisk(tableName)
 	_wordPhrase.WordPhraseID = field.NewString(tableName, "word_phrase_id")
+	_wordPhrase.WordID = field.NewString(tableName, "word_id")
 	_wordPhrase.PhraseID = field.NewString(tableName, "phrase_id")
 	_wordPhrase.CreateTime = field.NewInt64(tableName, "create_time")
 	_wordPhrase.UpdateTime = field.NewInt64(tableName, "update_time")
@@ -42,6 +43,7 @@ type wordPhrase struct {
 
 	ALL          field.Asterisk
 	WordPhraseID field.String
+	WordID       field.String
 	PhraseID     field.String
 	CreateTime   field.Int64
 	UpdateTime   field.Int64
@@ -62,6 +64,7 @@ func (w wordPhrase) As(alias string) *wordPhrase {
 func (w *wordPhrase) updateTableName(table string) *wordPhrase {
 	w.ALL = field.NewAsterisk(table)
 	w.WordPhraseID = field.NewString(table, "word_phrase_id")
+	w.WordID = field.NewString(table, "word_id")
 	w.PhraseID = field.NewString(table, "phrase_id")
 	w.CreateTime = field.NewInt64(table, "create_time")
 	w.UpdateTime = field.NewInt64(table, "update_time")
@@ -89,8 +92,9 @@ func (w *wordPhrase) GetFieldByName(fieldName string) (field.OrderExpr, bool) {
 }
 
 func (w *wordPhrase) fillFieldMap() {
-	w.fieldMap = make(map[string]field.Expr, 4)
+	w.fieldMap = make(map[string]field.Expr, 5)
 	w.fieldMap["word_phrase_id"] = w.WordPhraseID
+	w.fieldMap["word_id"] = w.WordID
 	w.fieldMap["phrase_id"] = w.PhraseID
 	w.fieldMap["create_time"] = w.CreateTime
 	w.fieldMap["update_time"] = w.UpdateTime

@@ -17,13 +17,13 @@ type Collector interface {
 }
 
 type Importer struct {
-	wordDao    dao.Word
+	dao.Dao
 	collectors []Collector
 }
 
-func NewImporter(wordDao dao.Word, collectors ...Collector) *Importer {
+func NewImporter(collectors ...Collector) *Importer {
 	return &Importer{
-		wordDao:    wordDao,
+		Dao:        dao.Get(),
 		collectors: collectors,
 	}
 }
@@ -42,7 +42,7 @@ func (importer Importer) Import(ctx context.Context) error {
 				return
 			}
 
-			if err = importer.wordDao.BatchInsert(ctx, words); err != nil {
+			if err = importer.Word.BatchInsert(ctx, words); err != nil {
 				logging.Errorf("[Import] BatchInsert err:%v", err)
 			}
 

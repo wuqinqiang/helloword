@@ -1,6 +1,8 @@
 package selector
 
 import (
+	"context"
+
 	"github.com/wuqinqiang/helloword/dao"
 	"github.com/wuqinqiang/helloword/dao/model"
 	s "github.com/wuqinqiang/helloword/selector/strategy"
@@ -15,7 +17,7 @@ const (
 )
 
 type Selector interface {
-	NextWords() (words model.Words, err error)
+	NextWords(ctx context.Context) (words model.Words, err error)
 	SetStrategyType(strategy StrategyType)
 }
 type Strategy interface {
@@ -23,14 +25,14 @@ type Strategy interface {
 }
 
 type Srv struct {
-	wordDao   dao.Word
+	dao.Dao
 	maxNumber int
 	strategy  Strategy
 }
 
-func New(strategyType StrategyType, wordDao dao.Word) Selector {
+func New(strategyType StrategyType) Selector {
 	srv := &Srv{
-		wordDao:   wordDao,
+		Dao:       dao.Get(),
 		maxNumber: 6,
 	}
 	var strategy Strategy
@@ -47,10 +49,15 @@ func New(strategyType StrategyType, wordDao dao.Word) Selector {
 	return srv
 }
 
-func (s *Srv) NextWords() (words model.Words, err error) {
-	return model.NewWords([]string{"statement", "distinguish", "permanent", "risk"}), nil
+func (s *Srv) NextWords(ctx context.Context) (words model.Words, err error) {
+	words, err = s.Word.GetList(ctx)
+	if err != nil {
+		return
+	}
+	words = s.strategy.Select(words)
+	return
 }
 
 func (s *Srv) SetStrategyType(strategy StrategyType) {
-
+	//todo
 }
