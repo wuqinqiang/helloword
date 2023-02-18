@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"github.com/urfave/cli/v2"
+	"github.com/wuqinqiang/helloword/dao/model"
 	"github.com/wuqinqiang/helloword/db"
 	"gorm.io/gen"
 )
@@ -28,10 +29,7 @@ var GenCmd = &cli.Command{
 		//db, err := gorm.Open(mysql.Open("root:root@tcp(127.0.0.1:3306)/boost?charset=utf8&parseTime=True&loc=Local"))
 		g.UseDB(db.GetDb())
 		g.GenerateAllTable()
-		//
-		//g.ApplyBasic(model.Dataset{}, model.DatasetGroup{},
-		//	model.DatasetProviderDeal{}, model.DealGroup{}, model.ProviderOrg{}, model.Provider{})
-
+		g.ApplyBasic(model.Wrod{}, model.WordPhrase{}, model.Phrase{}, model.WordPhraseUsage{})
 		g.Execute()
 		return nil
 	},

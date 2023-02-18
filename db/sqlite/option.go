@@ -12,7 +12,7 @@ var DefaultSettings = &Settings{
 	maxLifetime:  7200,
 	maxIdleConns: 5,
 	maxOpenConns: 15,
-	dbFileName:   "bridge.db",
+	dbFileName:   "helloword.db",
 	execSql:      execQql,
 	logger: logger.New(
 		log.New(os.Stdout, "\r\n", log.LstdFlags), // io writer

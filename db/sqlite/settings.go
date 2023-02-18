@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/mitchellh/go-homedir"
+
 	"github.com/pkg/errors"
 	"github.com/wuqinqiang/helloword/logging"
 	"gorm.io/driver/sqlite"
@@ -35,7 +36,7 @@ type Settings struct {
 	logger logger.Interface
 }
 
-func New(path string, options ...Option) (*Settings, error) {
+func New(path string, options ...Option) *Settings {
 	settings := DefaultSettings
 	for _, opt := range options {
 		opt(settings)
@@ -43,13 +44,8 @@ func New(path string, options ...Option) (*Settings, error) {
 	if path == "" {
 		path = "~/.bridge"
 	}
-	// if default path have '~'
-	actualPath, err := homedir.Expand(path)
-	if err != nil {
-		return nil, err
-	}
-	settings.path = actualPath
-	return settings, nil
+	settings.path = path
+	return settings
 }
 
 func (settings *Settings) Init() error {
@@ -57,7 +53,13 @@ func (settings *Settings) Init() error {
 }
 
 func (settings *Settings) init() error {
-	_, err := os.Stat(filepath.Join(settings.path, settings.dbFileName))
+	// if default path have '~'
+	actualPath, err := homedir.Expand(settings.path)
+	if err != nil {
+		return err
+	}
+	settings.path = actualPath
+	_, err = os.Stat(filepath.Join(settings.path, settings.dbFileName))
 	noexist := os.IsNotExist(err)
 	if err != nil && !noexist {
 		return err
