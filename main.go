@@ -28,6 +28,7 @@ func main() {
 			cmd.ImportCmd,
 			cmd.GameCmd,
 			cmd.GenCmd,
+			cmd.PhraseCmd,
 		},
 	}
 	app.Setup()

@@ -38,8 +38,8 @@ func New(strategyType StrategyType) Selector {
 	var strategy Strategy
 
 	switch strategyType {
-	case Default:
 	case LeastRecentlyUsed:
+	case Default:
 	default:
 		strategy = s.NewRandom(srv.maxNumber)
 	}
