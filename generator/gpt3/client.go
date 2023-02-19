@@ -10,6 +10,8 @@ import (
 	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
+var EmptyErr = errors.New("the result is empty")
+
 var prompt = "请你用以下单词：%s 写一篇英语短文。此外，在生成的短文后面，说明以上单词的中文意思"
 
 type Client struct {
@@ -52,6 +54,9 @@ func (client *Client) request(ctx context.Context, text string) (string, error) 
 		if len(response.Choices) > 0 {
 			res += response.Choices[0].Text
 		}
+	}
+	if res == "" {
+		return res, EmptyErr
 	}
 	return res, nil
 }

@@ -3,6 +3,8 @@ package cmd
 import (
 	"strings"
 
+	"github.com/wuqinqiang/helloword/logging"
+
 	"github.com/wuqinqiang/helloword/notify/base"
 
 	"github.com/wuqinqiang/helloword/notify"
@@ -29,7 +31,11 @@ var PhraseCmd = &cli.Command{
 		if err != nil {
 			return err
 		}
-		notify.New(conf.Senders()).Notify(base.New("今日单词", phrase))
+		n := notify.New(conf.Senders())
+		n.Notify(base.New("", phrase))
+
+		n.Wait()
+		logging.Infof("Successfully generated a short phrase")
 		return nil
 	},
 }
