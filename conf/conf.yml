@@ -1,0 +1,16 @@
+gptToken: ""
+
+collector:
+  bbdc: # 不背单词
+    cookie:
+
+# --------------------- Notification Configuration ---------------------
+notify:
+  #   telegram:
+  #      token: xxxxxxx # Bot Token
+  #      chat_id: -123456789 # Channel / Group ID
+  #   dingtalk:
+  #       webhook: "https://oapi.dingtalk.com/robot/send?access_token=xxxx"
+  #       secret: "" # sign secret if set
+  lark:
+    webhook: "xxx"
