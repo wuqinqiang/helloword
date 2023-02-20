@@ -103,6 +103,7 @@ func (core *Core) generatePhrase() {
 	}
 	phrase, err := core.generator.Generate(context.Background(), words.List())
 	if err != nil {
+		logging.Errorf("Generate err:%v", err)
 		return
 	}
 	tools.GoSafe(func() {

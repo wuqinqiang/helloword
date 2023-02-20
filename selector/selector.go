@@ -24,28 +24,43 @@ type Strategy interface {
 	Select(words model.Words) model.Words
 }
 
-type Srv struct {
-	dao.Dao
-	maxNumber int
-	strategy  Strategy
+type Option func(srv *Srv)
+
+func WithWordNumber(wordNumer int) Option {
+	return func(srv *Srv) {
+		if wordNumer <= 0 {
+			return
+		}
+		srv.wordNumber = wordNumer
+	}
 }
 
-func New(strategyType StrategyType) Selector {
+type Srv struct {
+	dao.Dao
+	wordNumber int
+	strategy   Strategy
+}
+
+func New(strategyType StrategyType, options ...Option) Selector {
 	srv := &Srv{
-		Dao:       dao.Get(),
-		maxNumber: 6,
+		Dao:        dao.Get(),
+		wordNumber: 5,
 	}
+	for _, option := range options {
+		option(srv)
+	}
+
 	var strategy Strategy
 
 	switch strategyType {
+	// todo
 	case LeastRecentlyUsed:
 	case Default:
 	default:
-		strategy = s.NewRandom(srv.maxNumber)
+		strategy = s.NewRandom(srv.wordNumber)
 	}
 
 	srv.strategy = strategy
-
 	return srv
 }
 

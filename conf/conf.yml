@@ -4,7 +4,6 @@ collector:
   bbdc: # 不背单词
     cookie:
 
-spec: "@every 10m"
 # --------------------- Notification Configuration ---------------------
 notify:
   #   telegram:

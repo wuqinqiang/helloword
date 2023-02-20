@@ -30,6 +30,11 @@ var DaemonCmd = &cli.Command{
 			Usage: "推送时间频率控制,默认1小时推送一次短语。自定义比如每5分钟推送一次: @every 5m。" +
 				"其他规则参考库github.com/robfig/cron",
 		},
+		&cli.IntFlag{
+			Name:  "word-number",
+			Usage: "多少个单词组成一个短语",
+			Value: 5, //default
+		},
 	},
 
 	Action: func(cctx *cli.Context) error {
@@ -53,7 +58,7 @@ var DaemonCmd = &cli.Command{
 
 		importer := collector.NewImporter(collectors...)
 
-		s := selector.New(selector.Random)
+		s := selector.New(selector.Random, selector.WithWordNumber(cctx.Int("word-number")))
 		n := notify.New(settings.Senders())
 		core := core.New(generator, importer, s, n, core.WithSpec(cctx.String("spec")))
 

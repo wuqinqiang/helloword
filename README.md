@@ -1,30 +1,30 @@
 # hello word(WIP)
 
-### 单词短语推送器
+### 背景 
+hello word是这段时间我在背单词的萌生的一个idea。学英语，词汇量是很重要的一部分，
+没有语境感的死记硬背的效率是很低的。虽然一些app可以根据一个词的多个词义组成一个单词的一小段句子，稍微增强的语境感。
+但是单词还是过于零散，我们是不是可以把每天背诵的多个单词组合成一段小短文，复习这一批单词呢？
+所以hello word来了。当然啦，组成一小段背后的工具。没错，就是ChatGPT API。
 
-### 模式
+### 计划
 
-#### 单词短语(doing)
+打算后续把hello word 分为以下几个模块。
 
-指定单词数量，短语长度生成由单词组成的小短语，增强语境感。
+#### 单词短语推送器
 
-- 单词选择规则
-    - 默认:正常模式按照未使用的单词组合，顺序。默认单词7天之后重复推送
-- 推送规则
-    - 用户自定义时间规则
+指定单词数量，生成一段小短语，推送到用户手机平台。
 
-example:
+**特点**
+单词选择规则 
+- 默认:随机 
+- 最近最少推送(todo)
+- 待定
 
-Every decision we make comes with a certain level of risk. It is important to understand what kind of statement you are
-making when you make a decision. It is also important to distinguish between decisions that are permanent and those that
-are not.
+自定义推送时间
 
-A statement is an official declaration that is made in an unambiguous way. Distinguishing refers to the ability to
-differentiate one thing from another. Permanent decisions are ones that cannot be undone or changed. Risk is the chance
-that an action might produce a negative result.
+![example](./library/example.png)
 
-Statement：宣言；Distinguish：区分；Permanent：永久的；Risk：风险。
+
 
 #### 单词游戏(todo)
-
-etc.填空,拼写,接龙等。
+填空,拼写,接龙等。
