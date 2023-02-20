@@ -1,9 +1,10 @@
-gptToken: ""
+gptToken: "xxx"
 
 collector:
   bbdc: # 不背单词
     cookie:
 
+spec: "@every 10m"
 # --------------------- Notification Configuration ---------------------
 notify:
   #   telegram:
@@ -13,4 +14,4 @@ notify:
   #       webhook: "https://oapi.dingtalk.com/robot/send?access_token=xxxx"
   #       secret: "" # sign secret if set
   lark:
-    webhook: "xxx"
+    webhook: "xx"

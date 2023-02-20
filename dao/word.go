@@ -25,8 +25,8 @@ func NewWord() Word {
 func (impl WordImpl) BatchInsert(ctx context.Context, words model.Words) error {
 	w := use(ctx).Word
 	return w.WithContext(ctx).Clauses(clause.OnConflict{
-		Columns:   []clause.Column{{Name: "word_id"}},
-		DoUpdates: clause.AssignmentColumns([]string{"phonetic", "definition", "difficulty", "update_time"}),
+		Columns:   []clause.Column{{Name: "word"}},
+		DoUpdates: clause.AssignmentColumns([]string{"phonetic", "definition", "difficulty"}),
 	}).CreateInBatches(words, 50)
 }
 
