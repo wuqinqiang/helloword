@@ -24,17 +24,3 @@ var DefaultSettings = &Settings{
 		},
 	),
 }
-
-type Option func(settings *Settings)
-
-func WithExecSql(sql string) Option {
-	return func(settings *Settings) {
-		settings.execSql = sql
-	}
-}
-
-func WithDbFileName(fileName string) Option {
-	return func(settings *Settings) {
-		settings.dbFileName = fileName
-	}
-}

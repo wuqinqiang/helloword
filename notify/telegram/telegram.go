@@ -1,11 +1,11 @@
-// Package telegram is the telegram notification package.
 package telegram
 
 import (
 	"fmt"
-	"github.com/wuqinqiang/helloword/notify/base"
 	"net/url"
 	"time"
+
+	"github.com/wuqinqiang/helloword/notify/base"
 
 	. "github.com/wuqinqiang/helloword/tools"
 )

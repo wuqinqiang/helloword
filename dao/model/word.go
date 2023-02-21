@@ -1,19 +1,13 @@
 package model
 
 import (
+	"math/rand"
 	"time"
 
 	"github.com/google/uuid"
 )
 
 type Words []*Word
-
-func NewWords(items []string) (words Words) {
-	for _, item := range items {
-		words = append(words, NewWord(item))
-	}
-	return
-}
 
 func NewWord(word string) *Word {
 	now := time.Now().Unix()
@@ -31,6 +25,23 @@ func (word *Word) SetDefinition(definition string) {
 
 func (word *Word) SetPhonetic(phonetic string) {
 	word.Phonetic = phonetic
+}
+
+func (words Words) ListByLetter() map[string]Words {
+	m := make(map[string]Words)
+	for _, item := range words {
+		if len(item.Word) == 0 {
+			continue
+		}
+		startLetter := item.Word[0:1]
+		m[startLetter] = append(m[startLetter], item)
+	}
+	return m
+}
+
+func (words Words) RandomPick() *Word {
+	rand.Seed(time.Now().UnixNano())
+	return words[rand.Intn(len(words))]
 }
 
 func (words Words) List() (items []string) {

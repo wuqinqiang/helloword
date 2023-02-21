@@ -112,6 +112,7 @@ func (core *Core) generatePhrase() {
 
 	core.afterGenerate(phrase, words)
 }
+
 func (core *Core) afterGenerate(phrase string, words model.Words) {
 	ctx := context.Background()
 	phraseRecord := model.NewPhrase(phrase)

@@ -36,11 +36,8 @@ type Settings struct {
 	logger logger.Interface
 }
 
-func New(path string, options ...Option) *Settings {
+func New(path string) *Settings {
 	settings := DefaultSettings
-	for _, opt := range options {
-		opt(settings)
-	}
 	if path == "" {
 		path = "~/.bridge"
 	}
