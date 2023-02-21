@@ -39,7 +39,7 @@ type Settings struct {
 func New(path string) *Settings {
 	settings := DefaultSettings
 	if path == "" {
-		path = "~/.bridge"
+		path = "~/.helloword"
 	}
 	settings.path = path
 	return settings

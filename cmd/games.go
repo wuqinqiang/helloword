@@ -7,6 +7,9 @@ import (
 	"os"
 	"strings"
 
+	"github.com/wuqinqiang/helloword/collector"
+	"github.com/wuqinqiang/helloword/collector/file"
+
 	"github.com/wuqinqiang/helloword/games"
 
 	"github.com/wuqinqiang/helloword/dao"
@@ -24,6 +27,25 @@ var GamesCmd = &cli.Command{
 
 var wordChainCmd = &cli.Command{
 	Name: "chain",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name: "files",
+			Usage: "传入要导入的Library目录下的单词文件。例如你可以导入一个文件 damon --files=CET4.txt" +
+				"或者多个文件用逗号隔开，damon --files=CET4.txt,CET6.txt",
+		},
+	},
+	Before: func(cctx *cli.Context) error {
+		var collectors []collector.Collector
+		files := "CET4.txt"
+		if cctx.String("files") != "" {
+			files = cctx.String("files")
+		}
+
+		collectors = append(collectors, file.New(files))
+		importer := collector.NewImporter(collectors...)
+
+		return importer.Import(cctx.Context)
+	},
 	Action: func(cctx *cli.Context) error {
 
 		list, err := dao.NewWord().GetList(cctx.Context)
