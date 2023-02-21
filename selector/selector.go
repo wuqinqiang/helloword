@@ -28,9 +28,6 @@ type Option func(srv *Srv)
 
 func WithWordNumber(wordNumer int) Option {
 	return func(srv *Srv) {
-		if wordNumer <= 0 {
-			return
-		}
 		srv.wordNumber = wordNumer
 	}
 }
@@ -43,11 +40,17 @@ type Srv struct {
 
 func New(strategyType StrategyType, options ...Option) Selector {
 	srv := &Srv{
-		Dao:        dao.Get(),
-		wordNumber: 5,
+		Dao: dao.Get(),
 	}
 	for _, option := range options {
 		option(srv)
+	}
+
+	if srv.wordNumber <= 0 {
+		srv.wordNumber = 5
+	}
+	if srv.wordNumber > 10 {
+		srv.wordNumber = 10
 	}
 
 	var strategy Strategy

@@ -58,5 +58,8 @@ func (client *Client) request(ctx context.Context, text string) (string, error) 
 	if res == "" {
 		return res, EmptyErr
 	}
+
+	fmt.Println("Generate:", res)
+
 	return res, nil
 }
