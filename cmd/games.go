@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 
 	"github.com/wuqinqiang/helloword/collector"
 	"github.com/wuqinqiang/helloword/collector/file"
@@ -33,6 +34,11 @@ var wordChainCmd = &cli.Command{
 			Usage: "传入要导入的Library目录下的单词文件。例如你可以导入一个文件 damon --files=CET4.txt" +
 				"或者多个文件用逗号隔开，damon --files=CET4.txt,CET6.txt",
 		},
+		&cli.Int64Flag{
+			Name:  "timeout", //unit of second
+			Usage: "超时时间，每轮用户超时没回答游戏结束",
+			Value: 10, // default 10 seconds
+		},
 	},
 	Before: func(cctx *cli.Context) error {
 		var collectors []collector.Collector
@@ -40,13 +46,16 @@ var wordChainCmd = &cli.Command{
 		if cctx.String("files") != "" {
 			files = cctx.String("files")
 		}
-
 		collectors = append(collectors, file.New(files))
 		importer := collector.NewImporter(collectors...)
 
 		return importer.Import(cctx.Context)
 	},
 	Action: func(cctx *cli.Context) error {
+		timeout := cctx.Int64("timeout")
+		if timeout <= 0 {
+			timeout = 10
+		}
 
 		list, err := dao.NewWord().GetList(cctx.Context)
 		if err != nil {
@@ -63,16 +72,25 @@ var wordChainCmd = &cli.Command{
 
 		scanner := bufio.NewScanner(os.Stdin)
 
+		timeoutDuration := time.Duration(timeout) * time.Second
+		timer := time.AfterFunc(timeoutDuration, func() {
+			fmt.Println("\nTime's up. Game over!")
+			os.Exit(0)
+		})
+		defer timer.Stop()
+
 		for {
 			fmt.Print("> ")
-			scanner.Scan()
-			word := scanner.Text()
+			if !scanner.Scan() {
+				break
+			}
+			timer.Reset(timeoutDuration)
 
+			word := scanner.Text()
 			if word == "" {
 				fmt.Println("Invalid word. Game over!")
 				break
 			}
-
 			if word == "exit" {
 				break
 			}

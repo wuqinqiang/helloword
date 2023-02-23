@@ -62,19 +62,21 @@ go run main.go daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-num
 **游戏规则**
 这是一个单词接龙游戏，游戏开始时系统会随机选择一个单词。玩家需要以该单词的最后一个字母为开头输入一个新单词，接着程序又以玩家输入单词的最后一个字母为开头输出新单词。游戏会持续进行，直到有一方出现错误。在一局游戏中，每个单词只能被使用一次。
 
+
 使用
 ```shell
 go run main.go games chain --files="CET4.txt,CET6.txt"
 ```
 **参数说明**
 - files 可选，如上
+- timeout 可选，每一轮超过时间未答题游戏会结束，超时时间默认十秒
 
 ![example](./library/word_chain.png)
 
 
 **后续规划**
 - 单词正确性校验，是否是合法的英语单词(todo)
-- 超时控制，用户每个回合指定时间内未输出，游戏结束(todo)
+- 超时控制，用户每个回合指定时间内未输出，游戏结束(done)
 - 错误机会，一局游戏可以错误次数(todo)
 
 
