@@ -1,0 +1,30 @@
+name: Go
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        go: [1.18, 1.19]
+    name: build & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Go
+        uses: actions/setup-go@v3.3.1
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: Upload coverage to Codecov
+        run: bash <(curl -s https://codecov.io/bash)
+      - name: helloword
+        run: |
+          go test ./...
