@@ -9,8 +9,8 @@ type WordChain struct {
 	dataSets map[string]model.Words
 	// save words that playing games
 	tmp map[string]struct{}
-
-	maxTries int //max tries for pick
+	//max tries for pick the word
+	maxRetries int
 
 	startWord *model.Word
 
@@ -19,11 +19,11 @@ type WordChain struct {
 
 func NewWordChain(words model.Words, startWord *model.Word) *WordChain {
 	wc := &WordChain{
-		dataSets:  words.ListByLetter(),
-		tmp:       make(map[string]struct{}),
-		startWord: startWord,
-		prevWord:  startWord,
-		maxTries:  5,
+		dataSets:   words.ListByLetter(),
+		tmp:        make(map[string]struct{}),
+		startWord:  startWord,
+		prevWord:   startWord,
+		maxRetries: 5,
 	}
 	wc.tmp[startWord.Word] = struct{}{}
 	return wc
@@ -54,7 +54,7 @@ func (chain *WordChain) Pick() (*model.Word, bool) {
 		return nil, false
 	}
 
-	for i := 0; i < chain.maxTries; i++ {
+	for i := 0; i < chain.maxRetries; i++ {
 		w := letterWords.RandomPick()
 
 		if chain.SetPrevWord(w.Word) {

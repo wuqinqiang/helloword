@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"errors"
 	"strings"
 
 	"github.com/wuqinqiang/helloword/logging"
@@ -20,7 +21,7 @@ var PhraseCmd = &cli.Command{
 	Action: func(cctx *cli.Context) error {
 		req := cctx.Args().Get(0)
 		if req == "" {
-			return nil
+			return errors.New("please input your words")
 		}
 		conf, err := conf.GetConf()
 		if err != nil {
