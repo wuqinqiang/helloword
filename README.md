@@ -53,13 +53,14 @@ go run main.go daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-num
 - spec：表示推送频率设置，默认为每小时生成一个新的短语，具体时间规则使用的是 [robif/cron](https://github.com/robfig/cron)
   库，请参考该库的文档自行设置。
 - word-number：表示生成一次短语使用的单词数量，默认为 5 个，最多不超过 10 个
+- strategy: 单词选择策略,默认随机random,还可选择 leastRecentlyUsed,最近最少被使用的单词
 
 ![example](./library/example.png)
 
 **单词选择规则**
 
 - 默认:随机 (done)
-- 最近最少推送(todo)
+- 最近最少推送(done)
 
 ### 指定单词，直接生成短语
 

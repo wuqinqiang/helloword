@@ -7,20 +7,13 @@ import (
 	"github.com/wuqinqiang/helloword/dao/model"
 )
 
-type RandomStrategy struct {
-	maxWords int
-}
+type RandomStrategy struct{}
 
-func NewRandom(maxWords int) *RandomStrategy {
-	return &RandomStrategy{
-		maxWords: maxWords,
-	}
+func NewRandom() *RandomStrategy {
+	return &RandomStrategy{}
 }
 
 func (s *RandomStrategy) Select(words model.Words) model.Words {
-	if len(words) <= s.maxWords {
-		return words
-	}
 	shuffled := make(model.Words, len(words))
 	copy(shuffled, words)
 
@@ -28,5 +21,5 @@ func (s *RandomStrategy) Select(words model.Words) model.Words {
 	rand.Shuffle(len(shuffled), func(i, j int) {
 		shuffled[i], shuffled[j] = shuffled[j], shuffled[i]
 	})
-	return shuffled[:s.maxWords]
+	return shuffled
 }

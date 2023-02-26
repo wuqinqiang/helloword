@@ -14,22 +14,17 @@ const (
 	Default           StrategyType = "default"
 	Random            StrategyType = "random"
 	LeastRecentlyUsed StrategyType = "leastRecentlyUsed"
+
+	MinWordsNum = 5
+	MaxWordsNum = 10
 )
 
 type Selector interface {
 	NextWords(ctx context.Context) (words model.Words, err error)
-	SetStrategyType(strategy StrategyType)
+	SetStrategyType(strategy Strategy)
 }
 type Strategy interface {
 	Select(words model.Words) model.Words
-}
-
-type Option func(srv *Srv)
-
-func WithWordNumber(wordNumer int) Option {
-	return func(srv *Srv) {
-		srv.wordNumber = wordNumer
-	}
 }
 
 type Srv struct {
@@ -47,20 +42,19 @@ func New(strategyType StrategyType, options ...Option) Selector {
 	}
 
 	if srv.wordNumber <= 0 {
-		srv.wordNumber = 5
+		srv.wordNumber = MinWordsNum
 	}
-	if srv.wordNumber > 10 {
-		srv.wordNumber = 10
+	if srv.wordNumber > MaxWordsNum {
+		srv.wordNumber = MaxWordsNum
 	}
 
 	var strategy Strategy
-
 	switch strategyType {
-	// todo
 	case LeastRecentlyUsed:
+		strategy = s.NewLeastRecentlyUsed()
 	case Default:
 	default:
-		strategy = s.NewRandom(srv.wordNumber)
+		strategy = s.NewRandom()
 	}
 
 	srv.strategy = strategy
@@ -68,14 +62,22 @@ func New(strategyType StrategyType, options ...Option) Selector {
 }
 
 func (s *Srv) NextWords(ctx context.Context) (words model.Words, err error) {
-	words, err = s.Word.GetList(ctx)
+	var list model.Words
+	list, err = s.Word.GetList(ctx)
 	if err != nil {
 		return
 	}
-	words = s.strategy.Select(words)
+
+	words = s.strategy.Select(list)
+	// not enough, then all out
+	if len(words) < s.wordNumber {
+		return
+	}
+	words = words[:s.wordNumber]
+
 	return
 }
 
-func (s *Srv) SetStrategyType(strategy StrategyType) {
-	//todo
+func (s *Srv) SetStrategyType(strategy Strategy) {
+	s.strategy = strategy
 }
