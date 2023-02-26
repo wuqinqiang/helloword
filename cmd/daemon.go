@@ -35,6 +35,11 @@ var DaemonCmd = &cli.Command{
 			Usage: "多少个单词组成一个短语",
 			Value: 5, //default
 		},
+		&cli.StringFlag{
+			Name:  "strategy",
+			Usage: "单词选择策略,默认随机random,还可选择 leastRecentlyUsed,最近最少被使用的单词",
+			Value: "random",
+		},
 	},
 
 	Action: func(cctx *cli.Context) error {
@@ -58,7 +63,12 @@ var DaemonCmd = &cli.Command{
 
 		importer := collector.NewImporter(collectors...)
 
-		s := selector.New(selector.Random, selector.WithWordNumber(cctx.Int("word-number")))
+		strategy := selector.Random
+		if cctx.String("strategy") == string(selector.LeastRecentlyUsed) {
+			strategy = selector.LeastRecentlyUsed
+		}
+
+		s := selector.New(strategy, selector.WithWordNumber(cctx.Int("word-number")))
 		n := notify.New(settings.Senders())
 		core := core.New(generator, importer, s, n, core.WithSpec(cctx.String("spec")))
 
