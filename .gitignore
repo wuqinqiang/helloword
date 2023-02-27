@@ -2,3 +2,6 @@ build/.*
 .idea
 conf/conf.yml
 conf/conf.example.yml
+
+release/
+packages/

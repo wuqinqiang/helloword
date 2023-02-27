@@ -4,7 +4,6 @@ import (
 	"bufio"
 	"context"
 	"os"
-	"path/filepath"
 	"strings"
 
 	"github.com/wuqinqiang/helloword/logging"
@@ -20,9 +19,8 @@ type File struct {
 
 func New(fileNames string) *File {
 	file := new(File)
-	for _, name := range strings.Split(fileNames, ",") {
-		// hard code
-		file.fileList = append(file.fileList, filepath.Join("library", name))
+	for _, fileName := range strings.Split(fileNames, ",") {
+		file.fileList = append(file.fileList, fileName)
 	}
 	return file
 }

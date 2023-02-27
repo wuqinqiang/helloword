@@ -43,7 +43,7 @@ notify: # 通知配置，目前支持telegram，dingtalk，lark可以全配，�
 指定单词数量，随机选择单词，生成一段小短文，推送到用户指定平台。
 
 ```shell
-go run main.go daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-number=8
+./helloword daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-number=8
 ```
 
 **参数说明**
@@ -65,7 +65,7 @@ go run main.go daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-num
 ### 指定单词，直接生成短语
 
 ```shell
-go run main.go phrase "approach,proportion,academy,weapon"
+./helloword phrase "approach,proportion,academy,weapon"
 ```
 
 ### 单词游戏
@@ -78,7 +78,7 @@ go run main.go phrase "approach,proportion,academy,weapon"
 使用
 
 ```shell
-go run main.go games chain --files="CET4.txt,CET6.txt"
+./helloword games chain --files="CET4.txt,CET6.txt"
 ```
 
 **参数说明**
