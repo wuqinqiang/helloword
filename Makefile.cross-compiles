@@ -15,7 +15,7 @@ app:
 		gomips=$(shell echo "$(n)" | cut -d : -f 3);\
 		target_suffix=$${os}_$${arch};\
 		echo "Build $${os}-$${arch}...";\
-		GOOS=$${os} GOARCH=$${arch} GOMIPS=$${gomips} go build -trimpath -ldflags "$(LDFLAGS)" -o ./release/helloword_$${target_suffix} main.go;\
+		env CGO_ENABLED=1 GOOS=$${os} GOARCH=$${arch} GOMIPS=$${gomips} go build -trimpath -ldflags "$(LDFLAGS)" -o ./release/helloword_$${target_suffix} main.go;\
 		echo "Build $${os}-$${arch} done";\
 	)
 	@mv ./release/helloword_windows_amd64 ./release/helloword_windows_amd64.exe
