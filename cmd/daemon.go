@@ -40,10 +40,14 @@ var DaemonCmd = &cli.Command{
 			Usage: "单词选择策略,默认随机random,还可选择 leastRecentlyUsed,最近最少被使用的单词",
 			Value: "random",
 		},
+		&cli.StringFlag{
+			Name:    "conf",
+			Aliases: []string{"c"},
+		},
 	},
 
 	Action: func(cctx *cli.Context) error {
-		settings, err := conf.GetConf()
+		settings, err := conf.GetConf(cctx.String("conf"))
 		if err != nil {
 			return err
 		}

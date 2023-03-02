@@ -14,14 +14,12 @@ import (
 )
 
 type File struct {
-	fileList []string
+	list []string
 }
 
-func New(fileNames string) *File {
+func New(files string) *File {
 	file := new(File)
-	for _, fileName := range strings.Split(fileNames, ",") {
-		file.fileList = append(file.fileList, fileName)
-	}
+	file.list = append(file.list, strings.Split(files, ",")...)
 	return file
 }
 
@@ -30,11 +28,10 @@ func (f *File) Name() string {
 }
 
 func (f *File) Collect(ctx context.Context) (model.Words, error) {
-
 	var words model.Words
 
 	fx.From(func(source chan<- interface{}) {
-		for _, file := range f.fileList {
+		for _, file := range f.list {
 			source <- file
 		}
 

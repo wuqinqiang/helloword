@@ -29,7 +29,8 @@ for os in $os_all; do
             mv ./helloword_${os}_${arch} ${hello_path}/helloword
         fi
         cp ../LICENSE ${hello_path}
-        cp -rf ../library/* ${hello_path}
+        cp ../library/* ${hello_path}
+        cp ../conf/conf.example.yml ${hello_path}/conf.yml
 
         # packages
         cd ./packages

@@ -72,7 +72,7 @@ func (core *Core) Run() error {
 		return err
 	}
 	core.cron.Start()
-
+	logging.Infof("Hello Word")
 	ch := make(chan os.Signal, 1)
 	signal.Notify(ch, syscall.SIGTERM, syscall.SIGQUIT, syscall.SIGINT)
 	<-ch

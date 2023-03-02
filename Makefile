@@ -20,3 +20,7 @@ macos-arm64:
 	GOOS=darwin GOARCH=arm64 go build -o helloword-macos-arm64 main.go
 
 build: win macos-adm64 linux macos-arm64
+
+
+all:
+	$(shell sh build.sh)

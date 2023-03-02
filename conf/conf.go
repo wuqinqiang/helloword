@@ -2,6 +2,8 @@ package conf
 
 import (
 	_ "embed"
+	"io"
+	"os"
 
 	"gopkg.in/yaml.v3"
 
@@ -12,11 +14,27 @@ import (
 )
 
 //go:embed conf.yml
-var conf []byte
+var base []byte
 
-func GetConf() (*Settings, error) {
-	var settings Settings
-	err := yaml.Unmarshal(conf, &settings)
+func GetConf(filePath string) (*Settings, error) {
+	var (
+		settings Settings
+		b        = base
+	)
+
+	if filePath != "" {
+		file, err := os.Open(filePath)
+		if err != nil {
+			return nil, err
+		}
+		defer file.Close() //nolint
+
+		if b, err = io.ReadAll(file); err != nil {
+			return nil, err
+		}
+	}
+
+	err := yaml.Unmarshal(b, &settings)
 	if err != nil {
 		return nil, err
 	}

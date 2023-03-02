@@ -43,17 +43,17 @@ notify: # 通知配置，目前支持telegram，dingtalk，lark可以全配，�
 指定单词数量，随机选择单词，生成一段小短文，推送到用户指定平台。
 
 ```shell
-./helloword daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-number=8
+./helloword daemon --files="CET4.txt,CET6.txt" --spec="@every 10s" --word-number=8 --c=conf.yml
 ```
 
 **参数说明**
 这个程序有以下可选项：
-
 - files：默认导入 CET4.txt 单词文件，你可以通过逗号同时导入多个单词文件，它们都存储在 library 文件夹下。
 - spec：表示推送频率设置，默认为每小时生成一个新的短语，具体时间规则使用的是 [robif/cron](https://github.com/robfig/cron)
   库，请参考该库的文档自行设置。
 - word-number：表示生成一次短语使用的单词数量，默认为 5 个，最多不超过 10 个
 - strategy: 单词选择策略,默认随机random,还可选择 leastRecentlyUsed,最近最少被使用的单词
+- conf: 可选，配置文件。具体配置信息如上
 
 ![example](./library/example.png)
 

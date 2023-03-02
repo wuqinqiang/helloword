@@ -18,12 +18,18 @@ import (
 var PhraseCmd = &cli.Command{
 	Name:  "phrase",
 	Usage: "Generate phrases directly",
+	Flags: []cli.Flag{
+		&cli.StringFlag{
+			Name:    "conf",
+			Aliases: []string{"c"},
+		},
+	},
 	Action: func(cctx *cli.Context) error {
 		req := cctx.Args().Get(0)
 		if req == "" {
 			return errors.New("please input your words")
 		}
-		conf, err := conf.GetConf()
+		conf, err := conf.GetConf(cctx.String("c"))
 		if err != nil {
 			return err
 		}
