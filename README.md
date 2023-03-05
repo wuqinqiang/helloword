@@ -38,6 +38,17 @@ notify: # 通知配置，目前支持telegram，dingtalk，lark可以全配，�
     webhook: "xx" 
 ```
 
+#### 代理
+
+由于众所周知的原因，所以你可能需要代理，
+环境变量:
+
+```dotenv
+# socks5或者http
+# etc.
+PROXY_URI=socks5://ip:port
+```
+
 ### 单词短语推送器
 
 指定单词数量，随机选择单词，生成一段小短文，推送到用户指定平台。
@@ -48,6 +59,7 @@ notify: # 通知配置，目前支持telegram，dingtalk，lark可以全配，�
 
 **参数说明**
 这个程序有以下可选项：
+
 - files：默认导入 CET4.txt 单词文件，你可以通过逗号同时导入多个单词文件，它们都存储在 library 文件夹下。
 - spec：表示推送频率设置，默认为每小时生成一个新的短语，具体时间规则使用的是 [robif/cron](https://github.com/robfig/cron)
   库，请参考该库的文档自行设置。

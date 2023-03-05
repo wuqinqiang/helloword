@@ -23,6 +23,10 @@ var PhraseCmd = &cli.Command{
 			Name:    "conf",
 			Aliases: []string{"c"},
 		},
+		&cli.StringFlag{
+			Name:    "proxy-url",
+			EnvVars: []string{"PROXY_URL"},
+		},
 	},
 	Action: func(cctx *cli.Context) error {
 		req := cctx.Args().Get(0)
@@ -33,7 +37,10 @@ var PhraseCmd = &cli.Command{
 		if err != nil {
 			return err
 		}
-		client := gpt3.NewClient(conf.GptToken)
+		client, err := gpt3.NewClient(conf.GptToken, cctx.String("proxy-url"))
+		if err != nil {
+			return err
+		}
 		phrase, err := client.Generate(cctx.Context, strings.Split(req, ","))
 		if err != nil {
 			return err

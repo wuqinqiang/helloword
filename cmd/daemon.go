@@ -1,8 +1,6 @@
 package cmd
 
 import (
-	"os"
-
 	"github.com/wuqinqiang/helloword/collector/file"
 
 	"github.com/wuqinqiang/helloword/collector/bbdc"
@@ -44,6 +42,14 @@ var DaemonCmd = &cli.Command{
 			Name:    "conf",
 			Aliases: []string{"c"},
 		},
+		&cli.StringFlag{
+			Name:    "bbdc-cookie",
+			EnvVars: []string{"BBDC_COOKIE"},
+		},
+		&cli.StringFlag{
+			Name:    "proxy-url",
+			EnvVars: []string{"PROXY_URI"},
+		},
 	},
 
 	Action: func(cctx *cli.Context) error {
@@ -51,10 +57,14 @@ var DaemonCmd = &cli.Command{
 		if err != nil {
 			return err
 		}
-		generator := gpt3.NewClient(settings.GptToken)
+		generator, err := gpt3.NewClient(settings.GptToken, cctx.String("proxy-url"))
+		if err != nil {
+			return err
+		}
 
 		var collectors []collector.Collector
-		bbcdCookie := os.Getenv("BBDC_COOKIE")
+
+		bbcdCookie := cctx.String("bbdc-cookie")
 		if bbcdCookie != "" {
 			collectors = append(collectors, bbdc.New(bbcdCookie))
 		}
@@ -64,15 +74,14 @@ var DaemonCmd = &cli.Command{
 			files = cctx.String("files")
 		}
 		collectors = append(collectors, file.New(files))
-
 		importer := collector.NewImporter(collectors...)
 
 		strategy := selector.Random
 		if cctx.String("strategy") == string(selector.LeastRecentlyUsed) {
 			strategy = selector.LeastRecentlyUsed
 		}
-
 		s := selector.New(strategy, selector.WithWordNumber(cctx.Int("word-number")))
+
 		n := notify.New(settings.Senders())
 		core := core.New(generator, importer, s, n, core.WithSpec(cctx.String("spec")))
 

@@ -3,7 +3,11 @@ package gpt3
 import (
 	"context"
 	"fmt"
+	"net"
+	"net/http"
+	"net/url"
 	"strings"
+	"time"
 
 	gogpt "github.com/sashabaranov/go-gpt3"
 )
@@ -14,9 +18,27 @@ type Client struct {
 	*gogpt.Client
 }
 
-func NewClient(token string) *Client {
-	gpt := gogpt.NewClient(token)
-	return &Client{gpt}
+func NewClient(token string, proxyUrl string) (*Client, error) {
+	conf := gogpt.DefaultConfig(token)
+
+	if proxyUrl != "" {
+		proxy, err := url.Parse(proxyUrl)
+		if err != nil {
+			return nil, err
+		}
+		dialer := net.Dialer{
+			Timeout: 30 * time.Second,
+		}
+		transport := &http.Transport{
+			Proxy:           http.ProxyURL(proxy),
+			DialContext:     dialer.DialContext,
+			MaxIdleConns:    50,
+			IdleConnTimeout: 60 * time.Second,
+		}
+		conf.HTTPClient.Transport = transport
+	}
+	gpt := gogpt.NewClientWithConfig(conf)
+	return &Client{gpt}, nil
 }
 
 func (client *Client) Generate(ctx context.Context, words []string) (phrase string, err error) {
