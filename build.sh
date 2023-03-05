@@ -30,7 +30,7 @@ for os in $os_all; do
         fi
         cp ../LICENSE ${hello_path}
         cp ../library/* ${hello_path}
-        cp ../conf/conf.example.yml ${hello_path}/conf.yml
+        cp ../conf/conf.yml ${hello_path}/conf.yml
 
         # packages
         cd ./packages
