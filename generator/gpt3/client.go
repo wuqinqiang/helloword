@@ -12,7 +12,7 @@ import (
 	gogpt "github.com/sashabaranov/go-gpt3"
 )
 
-var prompt = "使用单词：%s 写一篇英语短文。短文最后标注这几个单词的中文意思"
+var prompt = "请使用单词：%s 写一篇120字左右的英语短文。必须单独标注 %s 单词中文意思，同时把短文翻译成中文"
 
 type Client struct {
 	*gogpt.Client
@@ -43,7 +43,7 @@ func NewClient(token string, proxyUrl string) (*Client, error) {
 
 func (client *Client) Generate(ctx context.Context, words []string) (phrase string, err error) {
 	wordStr := strings.Join(words, ",")
-	return client.request(ctx, fmt.Sprintf(prompt, wordStr))
+	return client.request(ctx, fmt.Sprintf(prompt, wordStr, wordStr))
 }
 
 func (client *Client) request(ctx context.Context, text string) (string, error) {
@@ -56,7 +56,7 @@ func (client *Client) request(ctx context.Context, text string) (string, error) 
 				Content: text,
 			},
 		},
-		MaxTokens: 400,
+		MaxTokens: 2000,
 	}
 
 	var (
